@@ -15,41 +15,41 @@ class BinarySearchTree
     @root = nil
   end
 
-	def add_element(node, value)
-		new_node = Node.new(value)
-		
-		if root.nil?
-			@root = new_node
-			return
-		end
-		
-		current = @root
+  def add_element(node, value)
+    new_node = Node.new(value)
 
-		loop do
-			if value < current.value
-				if current.left.nil?
-					current.left = new_node
-					break
-				else
-					current = current.left
-				end
-			else
-				if current.right.nil?
-					current.right = new_node
-					break
-				else
-					current = current.right
-				end
-			end
-		end
-	end
+    if root.nil?
+      @root = new_node
+      return
+    end
 
-  # Add elements into the tree(multiple elements comma separated)
+    current = @root
+
+    loop do
+      if value < current.value
+        if current.left.nil?
+          current.left = new_node
+          break
+        else
+          current = current.left
+        end
+      else
+        if current.right.nil?
+          current.right = new_node
+          break
+        else
+          current = current.right
+        end
+      end
+    end
+  end
+
+  # Add elements into the tree (multiple elements comma separated)
   def add_elements(elements)
     elements.each { |el| add_element(@root, el) }
   end
 
-	# Print the smallest element
+  # Print the smallest element
   def find_min(node = @root)
     return nil if node.nil?
     return node.value if node.left.nil?
@@ -65,34 +65,34 @@ class BinarySearchTree
     find_max(node.right)
   end
 
-	# Inorder traversal
-	def inorder_bst(node = @root, result = [])
-		return result if node.nil?
-		inorder_bst(node.left, result)
-		result << node.value
-		inorder_bst(node.right, result)
-		result
-	end
+  # Inorder traversal
+  def inorder_bst(node = @root, result = [])
+    return result if node.nil?
+    inorder_bst(node.left, result)
+    result << node.value
+    inorder_bst(node.right, result)
+    result
+  end
 
-	# Preorder traversal
-	def preorder_bst(node = @root, result = [])
-		return result if node.nil?
-		result << node.value
-		preorder_bst(node.left, result)
-		preorder_bst(node.right, result)
-		result
-	end
+  # Preorder traversal
+  def preorder_bst(node = @root, result = [])
+    return result if node.nil?
+    result << node.value
+    preorder_bst(node.left, result)
+    preorder_bst(node.right, result)
+    result
+  end
 
-	# Postorder traversal
+  # Postorder traversal
   def postorder_bst(node = @root, result = [])
     return result if node.nil?
     postorder_bst(node.left, result)
-    postorder_bst(node.right, result)   
+    postorder_bst(node.right, result)
     result << node.value
-		result
+    result
   end
 
-	# Level_order traversal
+  # Level_order traversal
   def level_order_bst
     return [] if @root.nil?
 
@@ -136,7 +136,7 @@ class BinarySearchTree
     node
   end
 
-	# Print all paths from root to leaf
+  # Print all paths from root to leaf
   def print_paths(node = @root, path = [], result = [])
     return result if node.nil?
 
@@ -150,6 +150,7 @@ class BinarySearchTree
     path.pop
     result
   end
+end
 
 # Operations Class
 class Operations
@@ -160,13 +161,13 @@ class Operations
   def run
     loop do
       puts "\nMenu:"
-      puts "1. Add elements into the tree(multiple elements comma separated)"
+      puts "1. Add elements into the tree (multiple elements comma separated)"
       puts "2. Print the largest element"
       puts "3. Print the smallest element"
       puts "4. Print traversals (inorder, preorder, postorder, level order)"
       puts "5. Search an element"
       puts "6. Remove an element"
-      puts "7. Print all the paths i.e starting from the root to the leaf"
+      puts "7. Print all the paths i.e. starting from the root to the leaf"
       puts "8. Quit"
       print "Enter your choice: "
       choice = gets.chomp.to_i
@@ -210,4 +211,4 @@ end
 
 app = Operations.new
 app.run
-end
+
