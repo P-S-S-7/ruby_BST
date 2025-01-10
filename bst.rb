@@ -62,68 +62,59 @@ class BinarySearchTree
 	def find_min(node = @root)
 		return nil if node.nil?
 		return node.value if node.left.nil?
-
 		find_min(node.left)
 	end
 
 	def find_max(node = @root)
 		return nil if node.nil?
 		return node.value if node.right.nil?
-
 		find_max(node.right)
 	end
 
 	def inorder_bst(node = @root, result = [])
 		return result if node.nil?
-
 		inorder_bst(node.left, result)
 		result << node.value
 		inorder_bst(node.right, result)
-    
 		result
 	end
 
 	def preorder_bst(node = @root, result = [])
 		return result if node.nil?
-    
 		result << node.value
 		preorder_bst(node.left, result)
 		preorder_bst(node.right, result)
-    
 		result
 	end
 
 	def postorder_bst(node = @root, result = [])
 		return result if node.nil?
-    
 		postorder_bst(node.left, result)
 		postorder_bst(node.right, result)
 		result << node.value
-
 		result
 	end
 
 	def level_order_bst
 		return [] if @root.nil?
-
 		queue = Queue.new
 		queue.push(@root)
 		result = []
+
 		until queue.empty?
 			current = queue.pop
 			result << current.value
 			queue.push(current.left) unless current.left.nil?
 			queue.push(current.right) unless current.right.nil?
-		end    
+		end
+
 		result
 	end
 
 	def search(value, node = @root)
 		return false if node.nil?
-
 		return true if value == node.value
 		return search(value, node.left) if value < node.value
-
 		search(value, node.right)
 	end
 	
@@ -148,16 +139,16 @@ class BinarySearchTree
 
 	def print_paths(node = @root, path = [], result = [])
 		return result if node.nil?
-
 		path << node.value
+
 		if node.left.nil? && node.right.nil?
 			result << path.clone
 		else
 			print_paths(node.left, path, result)
 			print_paths(node.right, path, result)
 		end
+		
 		path.pop
-    
 		result
 	end
 end
