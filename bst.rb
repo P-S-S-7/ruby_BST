@@ -19,42 +19,6 @@ class BinarySearchTree
 		@root = nil
 	end
 
-	private
-
-	def add_element(value)
-		new_node = Node.new(value)
-
-		if root.nil?
-			@root = new_node
-			return
-		end
-
-		current = @root
-
-		loop do
-			if value == current.value
-				puts "Duplication of value #{value} found. Skipping insertion."
-				return
-			elsif value < current.value
-				if current.left.nil?
-					current.left = new_node
-					break
-				else
-					current = current.left
-				end
-			else
-				if current.right.nil?
-					current.right = new_node
-					break
-				else
-					current = current.right
-				end
-			end
-		end
-	end
-
-	public
-
 	def add_elements(elements)
 		elements.each { |el| add_element(el) }
 	end
@@ -161,6 +125,40 @@ class BinarySearchTree
 		path.pop
 
 		result
+	end
+
+	private
+
+	def add_element(value)
+		new_node = Node.new(value)
+
+		if root.nil?
+			@root = new_node
+			return
+		end
+
+		current = @root
+
+		loop do
+			if value == current.value
+				puts "Duplication of value #{value} found. Skipping insertion."
+				return
+			elsif value < current.value
+				if current.left.nil?
+					current.left = new_node
+					break
+				else
+					current = current.left
+				end
+			else
+				if current.right.nil?
+					current.right = new_node
+					break
+				else
+					current = current.right
+				end
+			end
+		end
 	end
 end
 
