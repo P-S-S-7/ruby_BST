@@ -16,7 +16,7 @@ class BSTNode < Node
 	end
 end
 
-class LLNode < Node
+class LinkedListNode < Node
 	attr_accessor :next
 
 	def initialize(value)
@@ -69,50 +69,50 @@ class BinarySearchTree
 	end
 
 	def find_min(node = @root)
-		return [] if node.nil?
-		
+		return nil if node.nil?
+
 		current = node
 		current = current.left while current.left
-		
+
 		current.value
 	end
 
 	def find_max(node = @root)
-		return [] if node.nil?
-		
+		return nil if node.nil?
+
 		current = node
 		current = current.right while current.right
-		
+
 		current.value
 	end
 
 	def inorder_bst(node = @root, result = [])
 		return result if node.nil?
-		
+
 		inorder_bst(node.left, result)
 		result << node.value
 		inorder_bst(node.right, result)
-		
+
 		result
 	end
 
 	def preorder_bst(node = @root, result = [])
 		return result if node.nil?
-		
+
 		result << node.value
 		preorder_bst(node.left, result)
 		preorder_bst(node.right, result)
-		
+
 		result
 	end
 
 	def postorder_bst(node = @root, result = [])
 		return result if node.nil?
-		
+
 		postorder_bst(node.left, result)
 		postorder_bst(node.right, result)
 		result << node.value
-		
+
 		result
 	end
 
@@ -122,23 +122,26 @@ class BinarySearchTree
 		queue = Queue.new
 		queue.push(@root)
 		result = []
-		
+
 		until queue.empty?
 			current = queue.pop
 			result << current.value
 			queue.push(current.left) unless current.left.nil?
 			queue.push(current.right) unless current.right.nil?
 		end
-		
+
 		result
 	end
 
 	def search(value, node = @root)
 		return false if node.nil?
 		return true if value == node.value
-		return search(value, node.left) if value < node.value
 
-		search(value, node.right)
+		if value < node.value		
+			return search(value, node.left) 
+		else
+			return search(value, node.right)
+		end
 	end
 
 	def remove(value, node = @root)
@@ -185,8 +188,8 @@ class LinkedList
 	end
 
 	def add_element(value)
-		new_node = LLNode.new(value)
-		
+		new_node = LinkedListNode.new(value)
+
 		if @head.nil?
 			@head = new_node
 		else
@@ -197,37 +200,44 @@ class LinkedList
 	end
 
 	def delete_element(value)
-		return if @head.nil?
+  	return false if @head.nil?
 
-		if @head.value == value
-			@head = @head.next
-			return
-		end
+  	deleted = false
 
-		current = @head
-		
-		while current.next && current.next.value != value
-			current = current.next
-		end
+  	while @head && @head.value == value
+    	@head = @head.next
+    	deleted = true
+  	end
 
-		current.next = current.next.next if current.next
+  	current = @head
+
+  	while current && current.next
+    	if current.next.value == value
+      	current.next = current.next.next
+      	deleted = true
+    	else
+      	current = current.next
+    	end
+  	end
+
+  	deleted
 	end
 
 	def search(value)
 		current = @head
-		
+
 		while current
 			return true if current.value == value
 			current = current.next
 		end
-		
+
 		false
 	end
 
 	def reverse
 		prev = nil
 		current = @head
-		
+
 		while current
 			nxt = current.next
 			current.next = prev
@@ -240,12 +250,12 @@ class LinkedList
 	def print_list
 		result = []
 		current = @head
-		
+
 		while current
 			result << current.value
 			current = current.next
 		end
-		
+
 		result
 	end
 end
@@ -273,13 +283,13 @@ class ApplicationProgram
 		if @current_ds == "BST"
 			elements.each { |el| @bst.add_element(el) }
 		else
-			elements.each { |el| @ll.add_element(el) }
+			elements.each { |el| @linked_list.add_element(el) }
 		end
 	end
 
 	def load_from_file(file_path)
 		@file_path = file_path
-		
+
 		if File.exist?(file_path)
 			elements = File.read(file_path).chomp.split(' ').map(&:to_i)
 			add_elements(elements)
@@ -334,7 +344,7 @@ class ApplicationProgram
 				puts "Paths from root to leaves: #{paths.map { |path| path.join(' -> ') }}"
 			when 8
 				if @file_path
-        	File.write(@file_path, @bst.inorder_bst.join(' '))
+					File.write(@file_path, @bst.inorder_bst.join(' '))
 					puts "#{@current_ds} saved to file #{@file_path}."
 				end
 				break
@@ -344,7 +354,7 @@ class ApplicationProgram
 		end
 	end
 
-	def ll_menu
+	def linked_list_menu
 		input_method
 
 		loop do
@@ -362,26 +372,26 @@ class ApplicationProgram
 			when 1
 				print "Enter element to add: "
 				element = STDIN.gets.chomp.to_i
-				@ll.add_element(element)
+				@linked_list.add_element(element)
 				puts "Element added."
 			when 2
 				print "Enter element to delete: "
 				element = STDIN.gets.chomp.to_i
-				@ll.delete_element(element)
-				puts "Element deleted (if it existed)."
+				is_available = @linked_list.delete_element(element)
+				puts is_available ? "Element Deleted." : "Element does not exist."
 			when 3
 				print "Enter element to search: "
 				element = STDIN.gets.chomp.to_i
-				puts @ll.search(element) ? "Element found." : "Element not found."
+				puts @linked_list.search(element) ? "Element found." : "Element not found."
 			when 4
-				@ll.reverse
+				@linked_list.reverse
 				puts "List reversed."
 			when 5
-				puts "List: #{@ll.print_list.join(' -> ')}"
+				puts "List: #{@linked_list.print_list.join(' -> ')}"
 			when 6
 				if @file_path
-          File.write(@file_path, @ll.print_list.join(' '))
-          puts "#{@current_ds} saved to file #{@file_path}."
+					File.write(@file_path, @linked_list.print_list.join(' '))
+					puts "#{@current_ds} saved to file #{@file_path}."
 				end
 				break
 			else
@@ -405,9 +415,9 @@ class ApplicationProgram
 				@current_ds = "BST"
 				bst_menu
 			when 2
-				@ll = LinkedList.new
+				@linked_list = LinkedList.new
 				@current_ds = "LL"
-				ll_menu
+				linked_list_menu
 			when 3
 				puts "Exiting application. Goodbye!"
 				break
