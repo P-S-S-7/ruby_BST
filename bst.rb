@@ -26,8 +26,8 @@ class BinarySearchTree
 
 		if root.nil?
 			@root = new_node
-      	return
-    	end
+			return
+		end
 
 		current = @root
 
@@ -62,41 +62,50 @@ class BinarySearchTree
 	def find_min(node = @root)
 		return nil if node.nil?
 		return node.value if node.left.nil?
+		
 		find_min(node.left)
 	end
 
 	def find_max(node = @root)
 		return nil if node.nil?
 		return node.value if node.right.nil?
+		
 		find_max(node.right)
 	end
 
 	def inorder_bst(node = @root, result = [])
 		return result if node.nil?
+		
 		inorder_bst(node.left, result)
 		result << node.value
 		inorder_bst(node.right, result)
+		
 		result
 	end
 
 	def preorder_bst(node = @root, result = [])
 		return result if node.nil?
+		
 		result << node.value
 		preorder_bst(node.left, result)
 		preorder_bst(node.right, result)
+		
 		result
 	end
 
 	def postorder_bst(node = @root, result = [])
 		return result if node.nil?
+		
 		postorder_bst(node.left, result)
 		postorder_bst(node.right, result)
 		result << node.value
+		
 		result
 	end
 
 	def level_order_bst
 		return [] if @root.nil?
+		
 		queue = Queue.new
 		queue.push(@root)
 		result = []
@@ -115,26 +124,27 @@ class BinarySearchTree
 		return false if node.nil?
 		return true if value == node.value
 		return search(value, node.left) if value < node.value
+		
 		search(value, node.right)
 	end
-	
+
 	def remove(value, node = @root)
-    	return nil if node.nil?
+		return nil if node.nil?
 
-    	if value < node.value
-        	node.left = remove(value, node.left)
-    	elsif value > node.value
-        	node.right = remove(value, node.right)
-    	else
-        	return node.right if node.left.nil?
-        	return node.left if node.right.nil?
+		if value < node.value
+			node.left = remove(value, node.left)
+		elsif value > node.value
+			node.right = remove(value, node.right)
+		else
+			return @root = node.right if node.left.nil?
+			return @root = node.left if node.right.nil?
 
-        	min_val = find_min(node.right)
-        	node.value = min_val
-        	node.right = remove(min_val, node.right)
-    	end
+			min_val = find_min(node.right)
+			node.value = min_val
+			node.right = remove(min_val, node.right)
+		end
 
-    	node
+		node
 	end
 
 	def print_paths(node = @root, path = [], result = [])
@@ -147,7 +157,7 @@ class BinarySearchTree
 			print_paths(node.left, path, result)
 			print_paths(node.right, path, result)
 		end
-		
+
 		path.pop
 		result
 	end
@@ -225,7 +235,7 @@ class ApplicationProgram
 			when 8
 				if @file_path
 					File.write(@file_path, @bst.inorder_bst.join(' '))
-					puts "Tree saved to file #{@file_path}."
+					puts "Tree saved to file(inorder traversal) #{@file_path}."
 				end
 				puts "Exiting..."
 				break
