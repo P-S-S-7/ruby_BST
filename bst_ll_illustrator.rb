@@ -135,7 +135,6 @@ class BinarySearchTree
 
 	def search(value, node = @root)
 		return false if node.nil?
-
 		return true if value == node.value
 		return search(value, node.left) if value < node.value
 
