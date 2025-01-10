@@ -70,39 +70,49 @@ class BinarySearchTree
 
 	def find_min(node = @root)
 		return [] if node.nil?
+		
 		current = node
 		current = current.left while current.left
+		
 		current.value
 	end
 
 	def find_max(node = @root)
 		return [] if node.nil?
+		
 		current = node
 		current = current.right while current.right
+		
 		current.value
 	end
 
 	def inorder_bst(node = @root, result = [])
 		return result if node.nil?
+		
 		inorder_bst(node.left, result)
 		result << node.value
 		inorder_bst(node.right, result)
+		
 		result
 	end
 
 	def preorder_bst(node = @root, result = [])
 		return result if node.nil?
+		
 		result << node.value
 		preorder_bst(node.left, result)
 		preorder_bst(node.right, result)
+		
 		result
 	end
 
 	def postorder_bst(node = @root, result = [])
 		return result if node.nil?
+		
 		postorder_bst(node.left, result)
 		postorder_bst(node.right, result)
 		result << node.value
+		
 		result
 	end
 
@@ -112,12 +122,14 @@ class BinarySearchTree
 		queue = Queue.new
 		queue.push(@root)
 		result = []
+		
 		until queue.empty?
 			current = queue.pop
 			result << current.value
 			queue.push(current.left) unless current.left.nil?
 			queue.push(current.right) unless current.right.nil?
 		end
+		
 		result
 	end
 
@@ -138,15 +150,13 @@ class BinarySearchTree
 		elsif value > node.value
 			node.right = remove(value, node.right)
 		else
-			return node.right if node.left.nil?
-			return node.left if node.right.nil?
+			return @root = node.right if node.left.nil?
+			return @root = node.left if node.right.nil?
 
 			min_val = find_min(node.right)
 			node.value = min_val
 			node.right = remove(min_val, node.right)
 		end
-
-		@root = node if node == @root && value == @root.value
 
 		node
 	end
@@ -161,6 +171,7 @@ class BinarySearchTree
 			print_paths(node.left, path, result)
 			print_paths(node.right, path, result)
 		end
+
 		path.pop
 
 		result
@@ -176,6 +187,7 @@ class LinkedList
 
 	def add_element(value)
 		new_node = LLNode.new(value)
+		
 		if @head.nil?
 			@head = new_node
 		else
@@ -194,6 +206,7 @@ class LinkedList
 		end
 
 		current = @head
+		
 		while current.next && current.next.value != value
 			current = current.next
 		end
@@ -203,32 +216,38 @@ class LinkedList
 
 	def search(value)
 		current = @head
+		
 		while current
 			return true if current.value == value
 			current = current.next
 		end
+		
 		false
 	end
 
 	def reverse
 		prev = nil
 		current = @head
+		
 		while current
 			nxt = current.next
 			current.next = prev
 			prev = current
 			current = nxt
 		end
+		
 		@head = prev
 	end
 
 	def print_list
 		result = []
 		current = @head
+		
 		while current
 			result << current.value
 			current = current.next
 		end
+		
 		result
 	end
 end
@@ -262,6 +281,7 @@ class ApplicationProgram
 
 	def load_from_file(file_path)
 		@file_path = file_path
+		
 		if File.exist?(file_path)
 			elements = File.read(file_path).chomp.split(' ').map(&:to_i)
 			add_elements(elements)
