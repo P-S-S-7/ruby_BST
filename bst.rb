@@ -159,6 +159,7 @@ class BinarySearchTree
 		end
 
 		path.pop
+
 		result
 	end
 end
