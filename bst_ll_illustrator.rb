@@ -233,8 +233,7 @@ class LinkedList
 			current.next = prev
 			prev = current
 			current = nxt
-		end
-		
+		end	
 		@head = prev
 	end
 
