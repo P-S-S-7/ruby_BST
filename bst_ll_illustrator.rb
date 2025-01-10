@@ -173,7 +173,6 @@ class BinarySearchTree
 			print_paths(node.left, path, result)
 			print_paths(node.right, path, result)
 		end
-
 		path.pop
 
 		result
@@ -200,27 +199,27 @@ class LinkedList
 	end
 
 	def delete_element(value)
-  	return false if @head.nil?
+		return false if @head.nil?
 
-  	deleted = false
+		deleted = false
 
-  	while @head && @head.value == value
-    	@head = @head.next
-    	deleted = true
-  	end
+		while @head && @head.value == value
+			@head = @head.next
+			deleted = true
+		end
 
-  	current = @head
+		current = @head
 
-  	while current && current.next
-    	if current.next.value == value
-      	current.next = current.next.next
-      	deleted = true
-    	else
-      	current = current.next
-    	end
-  	end
+		while current && current.next
+			if current.next.value == value
+				current.next = current.next.next
+				deleted = true
+			else
+				current = current.next
+			end
+		end
 
-  	deleted
+		deleted
 	end
 
 	def search(value)
